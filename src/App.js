@@ -10,7 +10,7 @@ function App() {
   const [videoURL, setVideoURL] = useState('')
 
 
- /* const [history, setHistory] = useState([
+  const [history, setHistory] = useState([
     {
       prompt: `
 
@@ -28,9 +28,9 @@ minutes until they turn light golden,
 then deep fry over high heat for 30 more seconds 
 until they turn golden brown chili powder or ketchup?
 `}
-  ])*/
+  ])
 
- const [history, setHistory] = useState(null)
+  //const [history, setHistory] = useState(null)
 
   const [getVideoSubsLoading, setGetVideoSubsLoading] = useState(false)
   const [getVideoSubsError, setGetVideoSubsError] = useState(false)
@@ -213,12 +213,15 @@ until they turn golden brown chili powder or ketchup?
   return (
     <div className="App">
 
+
+      <h1 style={{ color: '#22272f', width: '90%', maxWidth: '720px', margin: 'auto', marginTop: '70px' }} className="text-5xl font-bold  leading-normal ">
+        Take Your TikTok Videos to the Next Level with AI
+      </h1>
+
       <div className="flex justify-center mt-20">
 
-        
-  
 
-        <div className="block p-6 rounded-lg bg-white " style={{ width: '90%', maxWidth: '720px' }}>
+        <div className="block p-6 rounded-lg  " style={{ width: '90%', maxWidth: '720px' }}>
           {/* <h5 className="text-gray-900 text-xl leading-tight font-medium mb-6">Insert a Tiktok video</h5> */}
 
           <div className="mb-3 flex items-center">
@@ -226,40 +229,94 @@ until they turn golden brown chili powder or ketchup?
             >Tiktok video link</label> */}
             <input
               type="text"
-              className=" form-control block w-full px-10 py-3 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-3xl transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+              className="  block w-full px-10 py-4 text-base font-light 
+              text-gray-900 shadow bg-white bg-clip-padding  
+              rounded-3xl transition ease-in-out m-0   "
               placeholder="Insert a Tiktok video..."
               value={videoURL}
+              style={{ border: 'none', outline: 'none', borderRadius: '50px' }}
               onChange={(e) => setVideoURL(e.target.value)}
             />
             {/* <div className=' border-r border-gray-300 mx-2 -ml-32' style={{height:'40px'}}></div> */}
 
             <button type="button"
-            className=" 
+              className=" 
             inline-block px-6 py-2.5 bg-blue-600 text-white  
             font-medium text-xs leading-tight uppercase rounded-3xl 
             shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 
             focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 
             active:shadow-lg transition duration-150 ease-in-out  -ml-32"
-            style={{
-              opacity: getVideoSubsLoading ? 0.5 : 1,
-              pointerEvents: getVideoSubsLoading ? 'none' : 'auto',
-              marginLeft:'-100px'
-            }}
-            onClick={() => {
-              GetVideoSubtitles()
-            }}
-          >START</button>
+              style={{
+                opacity: getVideoSubsLoading ? 0.5 : 1,
+                pointerEvents: getVideoSubsLoading ? 'none' : 'auto',
+                marginLeft: '-100px'
+              }}
+              onClick={() => {
+                GetVideoSubtitles()
+              }}
+            >START</button>
 
           </div>
 
-         
+
 
           {getVideoSubsError && <div className="text-red-500 text-xs mt-4">{getVideoSubsError}</div>}
         </div>
 
 
       </div>
+      {history && <div>
+        
 
+        <button id='category-button' onClick={() => setCategory('hooks')} type="button" className=" category-button inline-block px-6 py-2.5 bg-slate-100	 text-white font-medium text-sm leading-tight    hover:bg-slate-200	 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
+          Hooks
+        </button>
+        <button id='category-button' onClick={() => setCategory('ideas')} type="button" className="category-button inline-block px-6 py-2.5 bg-slate-100 text-white font-medium text-sm leading-tight    hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
+          Ideas
+        </button>
+        <button id='category-button' onClick={() => setCategory('headlines')} type="button" className="category-button inline-block px-6 py-2.5 bg-slate-100 text-white font-medium text-sm leading-tight    hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
+          Headlines
+        </button>
+        <button id='category-button' onClick={() => setCategory('subheadlines')} type="button" className="category-button inline-block px-6 py-2.5 bg-slate-100 text-white font-medium text-sm leading-tight    hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
+          Subheadlines
+        </button>
+        <button id='category-button' onClick={() => setCategory('questions')} type="button" className="category-button inline-block px-6 py-2.5 bg-slate-100 text-white font-medium text-sm leading-tight    hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
+          Questions
+        </button>
+
+      </div>}
+      {category && <div className="block p-6 rounded-lg shadow-lg bg-white " style={{ width: '90%', maxWidth: '500px', background:'#262626' }}>
+
+{prompts[category].map((prompt, index) => {
+  return <div key={index} className="flex justify-start my-6">
+       
+ <button onClick={() => {
+      setHistory(history => [...history, prompt.aiPrompt])
+      setQuestion('')
+      GetAnswer()
+    }} id='category-button' type="button" 
+    style={{ background: '#404040', width: 'fit-content' }} className="min-w-[12rem] h-12   relative w-full rounded text-white py-2 px-8 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer bg-neutral-500"
+    >
+      <div class="flex gap-2 justify-center items-center">
+            <div class="flex-shrink-0 h-4 w-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                </path>
+              </svg>
+            </div>
+            <span class="block">
+            {prompt.promptTitle}
+
+            </span>
+          </div>
+    </button> 
+  </div>
+})
+}
+
+
+
+</div>}
       <div className="flex justify-center my-12 mb-2">
 
         {history && history.length > 0 && <div className="block p-6 rounded-lg shadow-lg bg-white " style={{ width: '90%', maxWidth: '500px' }}>
@@ -304,44 +361,9 @@ until they turn golden brown chili powder or ketchup?
         </div>}
       </div>
 
-      {history && <div>
-        <button id='category-button' onClick={() => setCategory('hooks')} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-          Hooks
-        </button>
-        <button id='category-button' onClick={() => setCategory('ideas')} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-          Ideas
-        </button>
-        <button id='category-button' onClick={() => setCategory('headlines')} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-          Headlines
-        </button>
-        <button id='category-button' onClick={() => setCategory('subheadlines')} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-          Subheadlines
-        </button>
-        <button id='category-button' onClick={() => setCategory('questions')} type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-          Questions
-        </button>
-
-      </div>}
-
-      {category && <div className="block p-6 rounded-lg shadow-lg bg-white " style={{ width: '90%', maxWidth: '500px' }}>
-
-        {prompts[category].map((prompt, index) => {
-          return <div key={index} className="flex justify-start my-6">
-
-            <button onClick={() => {
-              setHistory(history => [...history, prompt.aiPrompt])
-              setQuestion('')
-              GetAnswer()
-            }} id='category-button' type="button" className="inline-block px-6 py-2.5 bg-rose-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-rose-700 hover:shadow-lg focus:bg-rose-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-rose-800 active:shadow-lg transition duration-150 ease-in-out">
-              {prompt.promptTitle}
-            </button>
-          </div>
-        })
-        }
 
 
-
-      </div>}
+      
 
     </div>
 
