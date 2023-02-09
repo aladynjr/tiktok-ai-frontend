@@ -11,9 +11,7 @@ function App() {
 
 
   const [history, setHistory] = useState([
-    {
-      prompt: `
-
+    `
 Weather outside is rifle two potatoes, cut a circle. 
 Boil for 30 minutes until it is soft. 
 Go through as the water. 
@@ -27,7 +25,9 @@ Deep fry over medium heat for 5
 minutes until they turn light golden, 
 then deep fry over high heat for 30 more seconds 
 until they turn golden brown chili powder or ketchup?
-`}
+`,
+    'Generate a headline for this video that is interesting and makes the viewer want to know more about the topic',
+    '"I am a potato" - Potato'
   ])
 
   //const [history, setHistory] = useState(null)
@@ -71,10 +71,10 @@ until they turn golden brown chili powder or ketchup?
   const [getAnswerLoading, setGetAnswerLoading] = useState(false)
   const [getAnswerError, setGetAnswerError] = useState(false)
 
-  const GetAnswer = async () => {
+  const GetAnswer = async (history) => {
     setGetAnswerLoading(true)
     setGetAnswerError('')
-
+    console.log('sending history...')
     console.log(history)
     try {
       const response = await fetch(`${HOST}/api/tiktok/history`, {
@@ -210,6 +210,31 @@ until they turn golden brown chili powder or ketchup?
   }, [])
 
   console.log({ history })
+
+  //when clicking enter, run GetAnswer
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Enter') {
+        console.log('enter')
+        if(!question.trim() || (question?.length < 3)) {
+          setGetAnswerError('Please enter a valid question')
+          console.log('Please enter a valid question ' + question)
+          return}
+        setHistory(history => [...history, question])
+        setQuestion('')
+
+        GetAnswer([...history, question])
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [question])
+  console.log({question})
+
   return (
     <div className="App">
 
@@ -266,7 +291,7 @@ until they turn golden brown chili powder or ketchup?
 
       </div>
       {history && <div>
-        
+
 
         <button id='category-button' onClick={() => setCategory('hooks')} type="button" className=" category-button inline-block px-6 py-2.5 bg-slate-100	 text-white font-medium text-sm leading-tight    hover:bg-slate-200	 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
           Hooks
@@ -285,47 +310,55 @@ until they turn golden brown chili powder or ketchup?
         </button>
 
       </div>}
-      {category && <div className="block p-6 rounded-lg shadow-lg bg-white " style={{ width: '90%', maxWidth: '500px', background:'#262626' }}>
+      {category && <div key={category} className="block p-6 rounded-lg shadow-lg bg-white animate__animated animate__fadeIn animate__faster"
+        style={{ width: 'fit-content', maxWidth: '500px', background: '#262626', margin: 'auto', marginTop: '20px', position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
 
-{prompts[category].map((prompt, index) => {
-  return <div key={index} className="flex justify-start my-6">
-       
- <button onClick={() => {
-      setHistory(history => [...history, prompt.aiPrompt])
-      setQuestion('')
-      GetAnswer()
-    }} id='category-button' type="button" 
-    style={{ background: '#404040', width: 'fit-content' }} className="min-w-[12rem] h-12   relative w-full rounded text-white py-2 px-8 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer bg-neutral-500"
-    >
-      <div class="flex gap-2 justify-center items-center">
-            <div class="flex-shrink-0 h-4 w-4">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                </path>
-              </svg>
-            </div>
-            <span class="block">
-            {prompt.promptTitle}
+        {prompts[category].map((prompt, index) => {
+          return <div key={index} className="flex justify-start my-6">
 
-            </span>
+            <button onClick={() => {
+              setHistory(history => [...history, prompt.aiPrompt])
+              setQuestion('')
+              GetAnswer([...history, prompt.aiPrompt])
+            }}  type="button"
+              style={{ background: '#404040', width: '400px' }}
+              className="min-w-[12rem] h-12   relative w-full rounded text-white py-2 px-8 text-left shadow-md focus:outline-none 
+              focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 
+              focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer 
+              bg-neutral-500"
+            >
+              <div class="flex gap-2  items-center justify-start">
+                <div class="flex-shrink-0 h-4 w-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                    </path>
+                  </svg>
+                </div>
+                <span class="block text-left">
+                  {prompt.promptTitle}
+
+                </span>
+              </div>
+            </button>
           </div>
-    </button> 
-  </div>
-})
-}
+        })
+        }
 
 
 
-</div>}
+      </div>}
+
+
       <div className="flex justify-center my-12 mb-2">
 
-        {history && history.length > 0 && <div className="block p-6 rounded-lg shadow-lg bg-white " style={{ width: '90%', maxWidth: '500px' }}>
-          <h5 className="text-gray-900 text-xl leading-tight font-medium mb-2">Ask questions about the video</h5>
+        {history && history.length > 1 && <div className="block p-6 rounded-lg  " style={{ width: '90%', maxWidth: '500px' }}>
+          {/* <h5 className="text-gray-900 text-xl leading-tight font-medium mb-2">Ask questions about the video</h5> */}
 
           {history.map((item, index) => {
+            var answer = (index % 2 == 0)
             if (index == 0) return
-            return <div key={index} className="flex justify-start my-6">
-              <div className='text-gray-500 mr-2' >{(index % 2 == 0) ? 'A  ' : 'Q  '} </div> <div className='text-left' >{item}</div>
+            return <div key={index} className="flex justify-start my-6 ">
+              <div className='text-gray-500 mr-2 ' >{answer ? 'A  ' : 'Q  '} </div> <div className='text-left ' style={{fontWeight: answer && '600', fontSize:'18px'}} >{item}</div>
             </div>
           })
 
@@ -333,9 +366,11 @@ until they turn golden brown chili powder or ketchup?
 
           <div className="mb-3 ">
 
-            <input
+            <textarea
               type="text"
-              className=" form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none mt-6"
+              //5 rows="3"
+              rows={4}
+              className=" form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none mt-10"
               placeholder="What is your question?"
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
@@ -346,15 +381,19 @@ until they turn golden brown chili powder or ketchup?
             className=" inline-block px-6 py-2.5 bg-pink-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-pink-700 hover:shadow-lg focus:bg-pink-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-800 active:shadow-lg transition duration-150 ease-in-out"
             style={{
               opacity: getAnswerLoading ? 0.5 : 1,
-              pointerEvents: getAnswerLoading ? 'none' : 'auto'
+              pointerEvents: getAnswerLoading ? 'none' : 'auto',
+              width:'100%'
             }}
             onClick={() => {
+              if(!question.trim() || (question?.length < 3)) {
+                setGetAnswerError('Please enter a valid question')
+                return}
               setHistory(history => [...history, question])
               setQuestion('')
 
-              GetAnswer()
+              GetAnswer([...history, question])
             }}
-          >SEND</button>
+          >Send  →</button>
 
           {getAnswerError && <div className="text-red-500 text-xs mt-4">{getAnswerError}</div>}
 
@@ -363,7 +402,7 @@ until they turn golden brown chili powder or ketchup?
 
 
 
-      
+
 
     </div>
 
