@@ -2,7 +2,9 @@
 
 
 body {
-  background:  #fafafa;//#262626;//
+  background: #fafafa;//#262626;//
+ //background: linear-gradient(to left, rgb(14, 165, 233), rgb(12, 138, 197));
+// background-image: radial-gradient(circle farthest-corner at 50% 100%, #6456b7, #6f60cc);
   height: 100vh;
 }
 
@@ -14,7 +16,8 @@ body {
 }
 
 .category-button{
-  color: #081e4a;
+ // color: #081e4a;
+  color: rgb(64, 64, 64);
   //  background: rgb(238, 242, 249);
     margin: 10px 10px;
     padding: 14px 45px;
