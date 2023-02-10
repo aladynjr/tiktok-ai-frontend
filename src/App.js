@@ -398,7 +398,7 @@ until they turn golden brown chili powder or ketchup?
 
       <div className="flex justify-center my-12 mb-2">
 
-        {history && history.length > 0 && <div className="block p-6 shadow-lg bg-white rounded-lg animate__animated animate__fadeInDown  " style={{ width: '90%', maxWidth: '500px' }}>
+        {history && history.length > 0 && <div className="block p-6 shadow-lg bg-white rounded-lg animate__animated   " style={{ width: '90%', maxWidth: '500px' }}>
           {/* <h5 className="text-gray-900 text-xl leading-tight font-medium mb-2">Ask questions about the video</h5> */}
 
           {history.map((item, index) => {
