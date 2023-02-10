@@ -11,7 +11,7 @@ function App() {
   const [videoURL, setVideoURL] = useState('')
 
 
-  const [history, setHistory] = useState([
+ /* const [history, setHistory] = useState([
     `
 Weather outside is rifle two potatoes, cut a circle. 
 Boil for 30 minutes until it is soft. 
@@ -33,9 +33,9 @@ until they turn golden brown chili powder or ketchup?
     'How Can You Make Perfectly Crispy Potato Circles with a Garlic Twist?',
     'How to make a potato circle',
 
-  ])
+  ])*/
 
- // const [history, setHistory] = useState([])
+  const [history, setHistory] = useState([])
 
   const [getVideoSubsLoading, setGetVideoSubsLoading] = useState(false)
   const [getVideoSubsError, setGetVideoSubsError] = useState(false)
@@ -246,7 +246,7 @@ until they turn golden brown chili powder or ketchup?
 
 
 <div style={{marginTop:'75px'}} >
-      <RxFramerLogo style={{fontSize:'75px', color:'#22272f', margin:'auto'}} /> 
+      <RxFramerLogo style={{fontSize:'75px', color:'#8e97a5b8', margin:'auto'}} /> 
     </div>
       <h1 style={{ color: '#22272f', width: '90%', maxWidth: '720px', margin: 'auto', marginTop: '30px', marginBottom:'-20px' }} className="text-5xl font-bold  leading-normal ">
         Take Your TikTok Videos to the Next Level with AI
