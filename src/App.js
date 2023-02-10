@@ -2,7 +2,6 @@ import React, { useState, useReducer, useEffect } from 'react';
 
 import './App.scss';
 import { FaPencilAlt } from 'react-icons/fa'
-import {RxFramerLogo} from 'react-icons/rx'
 function App() {
 
 
@@ -28,11 +27,11 @@ then deep fry over high heat for 30 more seconds
 until they turn golden brown chili powder or ketchup?
 `,
     'Generate a headline for this video that is interesting and makes the viewer want to know more about the topic',
-    'This is an example response from the AI',
+    '"I am a potato" - Potato',
     'Generate a question for this video that will make the viewer want to watch the video to find out the answer',
     'How Can You Make Perfectly Crispy Potato Circles with a Garlic Twist?',
+    'How to make a potato circle',
 
-    
   ])
 
   //const [history, setHistory] = useState([])
@@ -244,10 +243,8 @@ until they turn golden brown chili powder or ketchup?
   return (
     <div className="App">
 
-    <div style={{marginTop:'75px'}} >
-      <RxFramerLogo style={{fontSize:'75px', color:'#453c7f', margin:'auto'}} /> 
-    </div>
-      <h1 style={{ color: 'white', width: '90%', maxWidth: '720px', margin: 'auto', marginTop: '30px', marginBottom:'-20px' }} className="text-5xl font-bold  leading-normal ">
+
+      <h1 style={{ color: '#22272f', width: '90%', maxWidth: '720px', margin: 'auto', marginTop: '70px' }} className="text-5xl font-bold  leading-normal ">
         Take Your TikTok Videos to the Next Level with AI
       </h1>
 
@@ -283,7 +280,7 @@ until they turn golden brown chili powder or ketchup?
                 opacity: getVideoSubsLoading ? 0.5 : 1,
                 pointerEvents: getVideoSubsLoading ? 'none' : 'auto',
                 marginLeft: '-100px',
-                backgroundColor: 'rgb(221, 175, 36)',
+                backgroundColor: 'rgb(64 64 64)',
               }}
               onClick={() => {
                 if(videoURL.length < 3){
@@ -357,7 +354,7 @@ until they turn golden brown chili powder or ketchup?
 
       </div>}
       {category && <div key={category} className="block p-6 rounded-lg shadow-lg bg-white animate__animated animate__fadeIn animate__faster "
-        style={{ width: 'fit-content', maxWidth: '500px', background: '#534898', margin: 'auto', marginTop: '20px', position: 'absolute', left: '50%', transform: 'translateX(-50%)', zIndex: '10' }}>
+        style={{ width: 'fit-content', maxWidth: '500px', background: '#262626', margin: 'auto', marginTop: '20px', position: 'absolute', left: '50%', transform: 'translateX(-50%)', zIndex: '10' }}>
 
         {prompts[category].map((prompt, index) => {
           return <div key={index} className="flex justify-start my-6">
@@ -367,7 +364,7 @@ until they turn golden brown chili powder or ketchup?
               setQuestion('')
               GetAnswer([...history, prompt.aiPrompt])
             }} type="button"
-              style={{ background: '#6559ac', width: '400px' }}
+              style={{ background: '#404040', width: '400px' }}
               className="min-w-[12rem] h-12   relative w-full rounded text-white py-2 px-8 text-left shadow-md focus:outline-none 
               focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 
               focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer 
@@ -432,7 +429,7 @@ until they turn golden brown chili powder or ketchup?
               opacity: getAnswerLoading ? 0.5 : 1,
               pointerEvents: getAnswerLoading ? 'none' : 'auto',
               width: '100%',
-              background:'#ddaf24'
+              background:'rgb(64 64 64)'
             }}
             onClick={() => {
               if (!question.trim() || (question?.length < 3)) {

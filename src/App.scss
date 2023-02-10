@@ -4,9 +4,8 @@
 body {
  // background: #fafafa;//#262626;//
   background: linear-gradient(to left, #fafafa, whitesmoke);
- //background: linear-gradient(to left, rgb(14, 116, 233), rgb(12, 108, 197));
- background: linear-gradient(to left, #6456b7, #6f60cc);
- // background-image: radial-gradient(circle farthest-corner at 50% 100%, #6456b7, #6f60cc);
+ //background: linear-gradient(to left, rgb(14, 165, 233), rgb(12, 138, 197));
+// background-image: radial-gradient(circle farthest-corner at 50% 100%, #6456b7, #6f60cc);
   height: 100vh;
 }
 
@@ -28,12 +27,12 @@ body {
  border-radius: 7px;
 }
 .category-button:hover{
-  background: #534898a1;
+  background: rgb(115 115 115);
   color: rgb(238, 242, 249);
   font-weight: 500;
 }
 .category-button:focus{
- background: #534898;
+ background: #404040;
   color: rgb(238, 242, 249);
   font-weight: 500;
 }
