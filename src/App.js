@@ -2,6 +2,7 @@ import React, { useState, useReducer, useEffect } from 'react';
 
 import './App.scss';
 import { FaPencilAlt } from 'react-icons/fa'
+import {RxFramerLogo} from 'react-icons/rx'
 function App() {
 
 
@@ -244,7 +245,10 @@ until they turn golden brown chili powder or ketchup?
     <div className="App">
 
 
-      <h1 style={{ color: '#22272f', width: '90%', maxWidth: '720px', margin: 'auto', marginTop: '70px' }} className="text-5xl font-bold  leading-normal ">
+<div style={{marginTop:'75px'}} >
+      <RxFramerLogo style={{fontSize:'75px', color:'#22272f', margin:'auto'}} /> 
+    </div>
+      <h1 style={{ color: '#22272f', width: '90%', maxWidth: '720px', margin: 'auto', marginTop: '30px', marginBottom:'-20px' }} className="text-5xl font-bold  leading-normal ">
         Take Your TikTok Videos to the Next Level with AI
       </h1>
 
