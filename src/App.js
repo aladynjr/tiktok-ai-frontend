@@ -283,6 +283,10 @@ until they turn golden brown chili powder or ketchup?
                 backgroundColor: 'rgb(64 64 64)',
               }}
               onClick={() => {
+                if(videoURL.length < 3){
+                  setGetVideoSubsError('Please enter a valid tiktok video url')
+
+                  return}
                 GetVideoSubtitles()
               }}
             >START</button>
@@ -301,39 +305,52 @@ until they turn golden brown chili powder or ketchup?
 
         <button id='category-button' onClick={() => setCategory('hooks')} type="button"
          
-        style={{ background: '#404040', width: '150px', fontSize: '12px', padding:'7px 13px' }}
-              className=" relative w-full rounded text-white py-1 px-8 text-left shadow-md focus:outline-none  focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75  focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer  bg-neutral-500">
-          <div class="flex gap-2  items-center justify-center">
+        style={{  width: '150px', fontSize: '12px', padding:'7px 13px' }}
+              className="category-button relative w-full rounded text-white py-1 px-8 text-left  focus:outline-none  focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75  focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer   hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
+          <div class="flex gap-2  items-center justify-center category-text">
             <div class="flex-shrink-0 h-4 w-4"><FaPencilAlt /></div>
             Hooks
           </div>
         </button>
-        <button id='category-button' onClick={() => setCategory('ideas')} type="button" style={{ fontSize: '13px', padding: '9px 37px' }} className="category-button inline-block px-6 py-1 bg-slate-100 text-white font-medium text-sm leading-tight    hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
-          <div class="flex gap-2  items-center justify-start">
+        
+        <button id='category-button' onClick={() => setCategory('ideas')} type="button"
+         
+        style={{  width: '150px', fontSize: '12px', padding:'7px 13px' }}
+              className="category-button relative w-full rounded text-white py-1 px-8 text-left  focus:outline-none  focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75  focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer  bg-neutral-500 hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
+          <div class="flex gap-2  items-center justify-center category-text">
             <div class="flex-shrink-0 h-4 w-4"><FaPencilAlt /></div>
             Ideas
           </div>
         </button>
-        <button id='category-button' onClick={() => setCategory('headlines')} type="button" style={{ fontSize: '13px', padding: '9px 37px' }} className="category-button inline-block px-6 py-1 bg-slate-100 text-white font-medium text-sm leading-tight    hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
-          <div class="flex gap-2  items-center justify-start">
-            <div class="flex-shrink-0 h-4 w-4"><FaPencilAlt /></div>
-            Hooks
-          </div>
-        </button>
-        <button id='category-button' onClick={() => setCategory('subheadlines')} type="button" style={{ fontSize: '13px', padding: '9px 37px' }} className="category-button inline-block px-6 py-1 bg-slate-100 text-white font-medium text-sm leading-tight    hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
-        <div class="flex gap-2  items-center justify-start">
-            <div class="flex-shrink-0 h-4 w-4"><FaPencilAlt /></div>
-            Subheadlines
-          </div>
-          
-        </button>
-        <button id='category-button' onClick={() => setCategory('questions')} type="button" style={{ fontSize: '13px', padding: '9px 37px' }} className="category-button inline-block px-6 py-1 bg-slate-100 text-white font-medium text-sm leading-tight    hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
-        <div class="flex gap-2  items-center justify-start">
-            <div class="flex-shrink-0 h-4 w-4"><FaPencilAlt /></div>
-            Questions
-          </div>
-          
-        </button>
+        <button id='category-button' onClick={() => setCategory('hooks')} type="button"
+         
+         style={{  width: '150px', fontSize: '12px', padding:'7px 13px' }}
+               className="category-button relative w-full rounded text-white py-1 px-8 text-left  focus:outline-none  focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75  focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer  bg-neutral-500 hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
+           <div class="flex gap-2  items-center justify-center category-text">
+             <div class="flex-shrink-0 h-4 w-4"><FaPencilAlt /></div>
+             Pitches
+           </div>
+         </button>
+        <button id='category-button' onClick={() => setCategory('questions')} type="button"
+         
+         style={{  width: '150px', fontSize: '12px', padding:'7px 13px' }}
+               className="category-button relative w-full rounded text-white py-1 px-8 text-left  focus:outline-none  focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75  focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer  bg-neutral-500 hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
+           <div class="flex gap-2  items-center justify-center category-text">
+             <div class="flex-shrink-0 h-4 w-4"><FaPencilAlt /></div>
+             Questions
+           </div>
+         </button>
+        <button id='category-button' onClick={() => setCategory('headlines')} type="button"
+         
+         style={{  width: '150px', fontSize: '12px', padding:'7px 13px' }}
+               className="category-button relative w-full rounded text-white py-1 px-8 text-left  focus:outline-none  focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75  focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer  bg-neutral-500 hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
+           <div class="flex gap-2  items-center justify-center category-text">
+             <div class="flex-shrink-0 h-4 w-4"><FaPencilAlt /></div>
+             Headlines
+           </div>
+         </button>
+       
+       
 
       </div>}
       {category && <div key={category} className="block p-6 rounded-lg shadow-lg bg-white animate__animated animate__fadeIn animate__faster "
@@ -353,14 +370,14 @@ until they turn golden brown chili powder or ketchup?
               focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer 
               bg-neutral-500"
             >
-              <div class="flex gap-2  items-center justify-start">
+              <div class="flex gap-2  items-center justify-start ">
                 <div class="flex-shrink-0 h-4 w-4">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
                     </path>
                   </svg>
                 </div>
-                <span class="block text-left">
+                <span class="block text-left " style={{fontSize:'14px'}}>
                   {prompt.promptTitle}
 
                 </span>
