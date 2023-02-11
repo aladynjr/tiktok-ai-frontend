@@ -2,16 +2,16 @@ import React, { useState, useReducer, useEffect } from 'react';
 
 import './App.scss';
 import { FaPencilAlt } from 'react-icons/fa'
-import {RxFramerLogo} from 'react-icons/rx'
+import { RxFramerLogo } from 'react-icons/rx'
 function App() {
 
 
-  const HOST = 'http://localhost:5001'
-  // const HOST = 'http://143.198.58.92:5001'
+  //const HOST = 'http://localhost:5001'
+  const HOST = 'http://143.198.58.92:5001'
   const [videoURL, setVideoURL] = useState('')
 
 
-  const [history, setHistory] = useState([
+ /* const [history, setHistory] = useState([
     `
 Weather outside is rifle two potatoes, cut a circle. 
 Boil for 30 minutes until it is soft. 
@@ -32,14 +32,41 @@ until they turn golden brown chili powder or ketchup?
     'Generate a question for this video that will make the viewer want to watch the video to find out the answer',
     'How Can You Make Perfectly Crispy Potato Circles with a Garlic Twist?',
 
-    
-  ])
 
-  //const [history, setHistory] = useState([])
+  ])*/
+
+   const [history, setHistory] = useState([])
+
+  const [prompts, setPrompts] = useState();
+  const GetPrompts = async () => {
+    try {
+      const response = await fetch(`${HOST}/api/prompts`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      const data = await response.json()
+
+
+      setPrompts(data)
+      return data
+
+    }
+    catch (error) {
+      console.error(error.message)
+    }
+  }
+
+  useEffect(()=>{
+    GetPrompts()
+  },[])
+
+
 
   const [getVideoSubsLoading, setGetVideoSubsLoading] = useState(false)
-  const [getVideoSubsError, setGetVideoSubsError] = useState(false)
-
+  const [getVideoSubsError, setGetVideoSubsError] = useState('')
 
   const GetVideoSubtitles = async () => {
     setGetVideoSubsLoading(true)
@@ -118,85 +145,7 @@ until they turn golden brown chili powder or ketchup?
 
   console.log({ category })
 
-  const [prompts, setPrompts] = useState({
-    "hooks": [
-      {
-        "aiPrompt": 'Generate a hook title for this video that will be used in a caption that will capture a viewers attention and immediately hook them',
-        "promptTitle": "Generate a hook title for this video"
-      },
-      {
-        "aiPrompt": 'Generate a hook descrption for this video that is funny and will make the viewer want to watch the video',
-        "promptTitle": "Generate a hook description for this video"
-      },
-      {
-        "aiPrompt": 'Create a one sentence pitch for this video that accurately conveys the topic and tone of the video in an interesting way',
-        "promptTitle": "Create a one sentence pitch"
-      }
-    ],
-    "headlines": [
-      {
-        "aiPrompt": 'Generate a headline for this video that is interesting and makes the viewer want to know more about the topic',
-        "promptTitle": "Generate a headline for this video"
-      },
-      {
-        "aiPrompt": 'Create a headline for this video that is short and to the point, accurately conveying the topic and tone of the video',
-        "promptTitle": "Create a short and to the point headline"
-      },
-      {
-        "aiPrompt": 'Generate a headline for this video that is both interesting and accurately conveys the topic and tone of the video',
-        "promptTitle": "Generate an interesting and accurate headline"
-      }
-    ],
-    "subheadlines": [
-      {
-        "aiPrompt": 'Generate a subheadline for this video that provides more detail about the topic and tone of the video',
-        "promptTitle": "Generate a subheadline for this video"
-      },
-      {
-        "aiPrompt": 'Create a subheadline for this video that is short, to the point, and accurately conveys additional information about the video',
-        "promptTitle": "Create a short and to the point subheadline"
-      },
-      {
-        "aiPrompt": 'Generate a subheadline for this video that is interesting and provides additional detail about the topic and tone of the video',
-        "promptTitle": "Generate an interesting subheadline"
-      }
-    ],
-    "questions": [
-      {
-        "aiPrompt": 'Generate a question for this video that will make the viewer want to watch the video to find out the answer',
-        "promptTitle": "Generate a question for this video"
-      },
-      {
-        "aiPrompt": 'Create a question for this video that is short and to the point, accurately conveying the topic and tone of the video',
-        "promptTitle": "Create a short and to the point question"
-      },
-      {
-        "aiPrompt": 'Generate a question for this video that is both interesting and accurately conveys the topic and tone of the video',
-        "promptTitle": "Generate an interesting and accurate question"
-      }
-    ],
-    "ideas": [
-      {
-        "aiPrompt": 'Generate an idea for a sequel to this video that will continue the story and be just as exciting as the original',
-        "promptTitle": "Generate a sequel idea for this video"
-      },
-      {
-        "aiPrompt": 'Create an idea to improve this video by making it more visually appealing, adding new elements, or enhancing the overall experience',
-        "promptTitle": "Create an idea to improve this video"
-      },
-      {
-        "aiPrompt": 'Generate an idea to add to this video that will make it even more engaging and interesting for the viewer',
-        "promptTitle": "Generate an idea to add to this video"
-      }
-    ]
-  });
 
-  useEffect(() => {
-    if (!category) return
-
-    console.log(prompts[category])
-
-  })
 
 
   //when clicking on anything else other than an element with id of category-button, set category to empty string
@@ -220,6 +169,7 @@ until they turn golden brown chili powder or ketchup?
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Enter') {
+        
         console.log('enter')
         if (!question.trim() || (question?.length < 3)) {
           setGetAnswerError('Please enter a valid question')
@@ -241,13 +191,32 @@ until they turn golden brown chili powder or ketchup?
   }, [question])
   console.log({ question })
 
+
+  const CheckIfTiktokLinkIsValid = () => {
+    if (!videoURL) return false
+    try {
+      var id = videoURL?.match(/video\/.{19}/g)[0]?.replace('video/', '')
+
+      if (id) {
+        return true
+      } else {
+        return false
+      }
+    } catch (e) {
+      console.log(e.message)
+      return false
+    }
+
+
+  }
+
   return (
     <div className="App">
 
-    <div style={{marginTop:'75px'}} >
-      <RxFramerLogo style={{fontSize:'75px', color:'#453c7f', margin:'auto'}} /> 
-    </div>
-      <h1 style={{ color: 'white', width: '90%', maxWidth: '720px', margin: 'auto', marginTop: '30px', marginBottom:'-20px' }} className="text-5xl font-bold  leading-normal ">
+      <div style={{ marginTop: '75px' }} >
+        <RxFramerLogo style={{ fontSize: '75px', color: '#453c7f', margin: 'auto' }} />
+      </div>
+      <h1 style={{ color: 'white', width: '90%', maxWidth: '720px', margin: 'auto', marginTop: '30px', marginBottom: '-20px' }} className="text-5xl font-bold  leading-normal ">
         Take Your TikTok Videos to the Next Level with AI
       </h1>
 
@@ -286,10 +255,12 @@ until they turn golden brown chili powder or ketchup?
                 backgroundColor: 'rgb(221, 175, 36)',
               }}
               onClick={() => {
-                if(videoURL.length < 3){
+                if (!CheckIfTiktokLinkIsValid()) {
                   setGetVideoSubsError('Please enter a valid tiktok video url')
 
-                  return}
+                  return
+                }
+                console.log('valid tiktok url !')
                 GetVideoSubtitles()
               }}
             >START</button>
@@ -298,62 +269,62 @@ until they turn golden brown chili powder or ketchup?
 
 
 
-          {getVideoSubsError && <div className="text-red-500 text-xs mt-4">{getVideoSubsError}</div>}
+          {getVideoSubsError && <div className="text-white text-xs mt-4 bg-red-500 rounded-2xl px-4 py-1" style={{ width: 'fit-content', margin: 'auto' }}>{getVideoSubsError}</div>}
         </div>
 
 
       </div>
-      {history && <div>
+      {prompts && <div className='animate__animated animate__fadeIn' >
 
 
         <button id='category-button' onClick={() => setCategory('hooks')} type="button"
-         
-        style={{  width: '150px', fontSize: '12px', padding:'7px 13px' }}
-              className="category-button relative w-full rounded text-white py-1 px-8 text-left  focus:outline-none  focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75  focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer   hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
+
+          style={{ width: '150px', fontSize: '12px', padding: '7px 13px' }}
+          className="category-button relative w-full rounded text-white py-1 px-8 text-left  focus:outline-none  focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75  focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer   hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
           <div class="flex gap-2  items-center justify-center category-text">
             <div class="flex-shrink-0 h-4 w-4"><FaPencilAlt /></div>
             Hooks
           </div>
         </button>
-        
+
         <button id='category-button' onClick={() => setCategory('ideas')} type="button"
-         
-        style={{  width: '150px', fontSize: '12px', padding:'7px 13px' }}
-              className="category-button relative w-full rounded text-white py-1 px-8 text-left  focus:outline-none  focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75  focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer  bg-neutral-500 hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
+
+          style={{ width: '150px', fontSize: '12px', padding: '7px 13px' }}
+          className="category-button relative w-full rounded text-white py-1 px-8 text-left  focus:outline-none  focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75  focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer  bg-neutral-500 hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
           <div class="flex gap-2  items-center justify-center category-text">
             <div class="flex-shrink-0 h-4 w-4"><FaPencilAlt /></div>
             Ideas
           </div>
         </button>
-        <button id='category-button' onClick={() => setCategory('hooks')} type="button"
-         
-         style={{  width: '150px', fontSize: '12px', padding:'7px 13px' }}
-               className="category-button relative w-full rounded text-white py-1 px-8 text-left  focus:outline-none  focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75  focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer  bg-neutral-500 hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
-           <div class="flex gap-2  items-center justify-center category-text">
-             <div class="flex-shrink-0 h-4 w-4"><FaPencilAlt /></div>
-             Pitches
-           </div>
-         </button>
+        <button id='category-button' onClick={() => setCategory('pitches')} type="button"
+
+          style={{ width: '150px', fontSize: '12px', padding: '7px 13px' }}
+          className="category-button relative w-full rounded text-white py-1 px-8 text-left  focus:outline-none  focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75  focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer  bg-neutral-500 hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
+          <div class="flex gap-2  items-center justify-center category-text">
+            <div class="flex-shrink-0 h-4 w-4"><FaPencilAlt /></div>
+            Pitches
+          </div>
+        </button>
         <button id='category-button' onClick={() => setCategory('questions')} type="button"
-         
-         style={{  width: '150px', fontSize: '12px', padding:'7px 13px' }}
-               className="category-button relative w-full rounded text-white py-1 px-8 text-left  focus:outline-none  focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75  focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer  bg-neutral-500 hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
-           <div class="flex gap-2  items-center justify-center category-text">
-             <div class="flex-shrink-0 h-4 w-4"><FaPencilAlt /></div>
-             Questions
-           </div>
-         </button>
+
+          style={{ width: '150px', fontSize: '12px', padding: '7px 13px' }}
+          className="category-button relative w-full rounded text-white py-1 px-8 text-left  focus:outline-none  focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75  focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer  bg-neutral-500 hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
+          <div class="flex gap-2  items-center justify-center category-text">
+            <div class="flex-shrink-0 h-4 w-4"><FaPencilAlt /></div>
+            Questions
+          </div>
+        </button>
         <button id='category-button' onClick={() => setCategory('headlines')} type="button"
-         
-         style={{  width: '150px', fontSize: '12px', padding:'7px 13px' }}
-               className="category-button relative w-full rounded text-white py-1 px-8 text-left  focus:outline-none  focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75  focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer  bg-neutral-500 hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
-           <div class="flex gap-2  items-center justify-center category-text">
-             <div class="flex-shrink-0 h-4 w-4"><FaPencilAlt /></div>
-             Headlines
-           </div>
-         </button>
-       
-       
+
+          style={{ width: '150px', fontSize: '12px', padding: '7px 13px' }}
+          className="category-button relative w-full rounded text-white py-1 px-8 text-left  focus:outline-none  focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75  focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm cursor-pointer  bg-neutral-500 hover:bg-slate-200 hover:shadow-lg  focus:shadow-lg focus:outline-none focus:ring-0  active:shadow-lg transition duration-150 ease-in-out">
+          <div class="flex gap-2  items-center justify-center category-text">
+            <div class="flex-shrink-0 h-4 w-4"><FaPencilAlt /></div>
+            Headlines
+          </div>
+        </button>
+
+
 
       </div>}
       {category && <div key={category} className="block p-6 rounded-lg shadow-lg bg-white animate__animated animate__fadeIn animate__faster "
@@ -363,9 +334,17 @@ until they turn golden brown chili powder or ketchup?
           return <div key={index} className="flex justify-start my-6">
 
             <button onClick={() => {
-              setHistory(history => [...history, prompt.aiPrompt])
-              setQuestion('')
-              GetAnswer([...history, prompt.aiPrompt])
+              if (!history?.length) {
+                console.log('Please input a Tiktok video first! ')
+                setGetVideoSubsError('Please input a Tiktok video first!')
+              }
+              if (history?.length && history?.length % 2 == 0) {
+                setHistory(history => [...history, prompt.aiPrompt])
+                setQuestion('')
+                GetAnswer([...history, prompt.aiPrompt])
+              } else {
+                console.log('please wait for the ai to respond ')
+              }
             }} type="button"
               style={{ background: '#6559ac', width: '400px' }}
               className="min-w-[12rem] h-12   relative w-full rounded text-white py-2 px-8 text-left shadow-md focus:outline-none 
@@ -380,7 +359,7 @@ until they turn golden brown chili powder or ketchup?
                     </path>
                   </svg>
                 </div>
-                <span class="block text-left " style={{fontSize:'14px'}}>
+                <span class="block text-left " style={{ fontSize: '14px' }}>
                   {prompt.promptTitle}
 
                 </span>
@@ -397,7 +376,7 @@ until they turn golden brown chili powder or ketchup?
 
       <div className="flex justify-center my-12 mb-2">
 
-        {history && history.length > 0 && <div className="block p-6 shadow-lg bg-white rounded-lg animate__animated   " style={{ width: '90%', maxWidth: '500px' }}>
+        {history && history.length > 0 && <div className="block p-6 shadow-lg bg-white rounded-lg animate__animated animate__fadeInDown   " style={{ width: '90%', maxWidth: '500px' }}>
           {/* <h5 className="text-gray-900 text-xl leading-tight font-medium mb-2">Ask questions about the video</h5> */}
 
           {history.map((item, index) => {
@@ -409,7 +388,7 @@ until they turn golden brown chili powder or ketchup?
           })
 
           }
-
+          {getAnswerLoading && <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>}
           <div className="mb-3 py-4 ">
 
             <textarea
@@ -432,7 +411,7 @@ until they turn golden brown chili powder or ketchup?
               opacity: getAnswerLoading ? 0.5 : 1,
               pointerEvents: getAnswerLoading ? 'none' : 'auto',
               width: '100%',
-              background:'#ddaf24'
+              background: '#ddaf24'
             }}
             onClick={() => {
               if (!question.trim() || (question?.length < 3)) {
