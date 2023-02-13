@@ -218,13 +218,15 @@ function App() {
   }
 
   return (
-    <div className="App " >
+    <div className="App " style={{
+      paddingBottom: history?.length ? '400px' : '0px'
+    }} >
       {/* <div style={{ width: '100%', height: '500px', background: 'white', position: 'absolute' }} ></div> */}
       <div className=" bg-gradient" 
       style={{
-        /*height: history?.length ? '100vh' :'200vh',
+        height: history?.length ? '750px' :'150vh',
        borderBottomRightRadius:history?.length ? '100px' : '0px' ,
-        borderBottomLeftRadius:history?.length ? '100px' : '0px' ,*/
+        borderBottomLeftRadius:history?.length ? '100px' : '0px' ,
        }}>
       <div style={{ paddingTop: '75px' }} >
         <RxFramerLogo style={{ fontSize: '75px', color: '#ccdae7', margin: 'auto', opacity: '0.5' }} />

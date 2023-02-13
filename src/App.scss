@@ -58,29 +58,18 @@ body {
  border-bottom-right-radius: 70px;
  border-bottom-left-radius: 70px;
 
-padding-bottom: 250px;
+//dpadding-bottom: 250px;
 
 //min-height: 690px;
 //smooth transition 
-background-size: 110vw 150vh;
+background-size: 110vw 170vh;
 
 transition: all 0.5s ease-in-out;
-animation: bg 8s ;
-
-animation-fill-mode: forwards;
 
 
 }
 
-//animation where backgroudn size goes from  110vw 110vh to 110vw 130vh in 5 seconds smoothly 
-@keyframes bg {
-  0% {
-    background-size: 110vw 150vh;
-  }
-  100% {
-    background-size: 110vw 180vh;
-  }
-}
+
 
 //set the animation to start with delay of 1 second and run for 5 seconds
 
@@ -92,7 +81,7 @@ animation-fill-mode: forwards;
   padding-bottom: 300px;
 background-color: rgba(245, 248, 253, 1);
 
-padding-bottom: 500px;
+//padding-bottom: 500px;
 }
 
 .text-gradient__indigo-red {
