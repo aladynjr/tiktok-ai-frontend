@@ -11,31 +11,31 @@ function App() {
   const [videoURL, setVideoURL] = useState('')
 
 
- /* const [history, setHistory] = useState([
-    `
-Weather outside is rifle two potatoes, cut a circle. 
-Boil for 30 minutes until it is soft. 
-Go through as the water. 
-Then here. 
-My favorite way to mash a potato is using a garlic. 
-Press mix mashed potatoes, glutinous rice flour, cornstarch or potato starch, 
-salt and pepper. 
-Knead the dough until smooth, lowering the cut into the shape you like. 
-You can use a fork to press some patent. 
-Deep fry over medium heat for 5 
-minutes until they turn light golden, 
-then deep fry over high heat for 30 more seconds 
-until they turn golden brown chili powder or ketchup?
-`,
-    'Generate a headline for this video that is interesting and makes the viewer want to know more about the topic',
-    'This is an example response from the AI',
-    'Generate a question for this video that will make the viewer want to watch the video to find out the answer',
-    'How Can You Make Perfectly Crispy Potato Circles with a Garlic Twist?',
+  /* const [history, setHistory] = useState([
+     `
+ Weather outside is rifle two potatoes, cut a circle. 
+ Boil for 30 minutes until it is soft. 
+ Go through as the water. 
+ Then here. 
+ My favorite way to mash a potato is using a garlic. 
+ Press mix mashed potatoes, glutinous rice flour, cornstarch or potato starch, 
+ salt and pepper. 
+ Knead the dough until smooth, lowering the cut into the shape you like. 
+ You can use a fork to press some patent. 
+ Deep fry over medium heat for 5 
+ minutes until they turn light golden, 
+ then deep fry over high heat for 30 more seconds 
+ until they turn golden brown chili powder or ketchup?
+ `,
+     'Generate a headline for this video that is interesting and makes the viewer want to know more about the topic',
+     'This is an example response from the AI',
+     'Generate a question for this video that will make the viewer want to watch the video to find out the answer',
+     'How Can You Make Perfectly Crispy Potato Circles with a Garlic Twist?',
+ 
+ 
+   ])*/
 
-
-  ])*/
-
-   const [history, setHistory] = useState([])
+  const [history, setHistory] = useState([])
 
   const [prompts, setPrompts] = useState();
   const GetPrompts = async () => {
@@ -59,9 +59,9 @@ until they turn golden brown chili powder or ketchup?
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     GetPrompts()
-  },[])
+  }, [])
 
 
 
@@ -169,13 +169,20 @@ until they turn golden brown chili powder or ketchup?
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Enter') {
-        
+
         console.log('enter')
         if (!question.trim() || (question?.length < 3)) {
           setGetAnswerError('Please enter a valid question')
           console.log('Please enter a valid question ' + question)
           return
         }
+        if (getAnswerLoading) {
+          console.log('please wait for the ai to respond ')
+          setGetAnswerError('Please wait for the ai to respond')
+          return
+
+        }
+
         setHistory(history => [...history, question])
         setQuestion('')
 
@@ -211,13 +218,19 @@ until they turn golden brown chili powder or ketchup?
   }
 
   return (
-    <div className="App">
-
-      <div style={{ marginTop: '75px' }} >
-        <RxFramerLogo style={{ fontSize: '75px', color: '#453c7f', margin: 'auto' }} />
+    <div className="App " >
+      {/* <div style={{ width: '100%', height: '500px', background: 'white', position: 'absolute' }} ></div> */}
+      <div className=" bg-gradient" 
+      style={{
+        /*height: history?.length ? '100vh' :'200vh',
+       borderBottomRightRadius:history?.length ? '100px' : '0px' ,
+        borderBottomLeftRadius:history?.length ? '100px' : '0px' ,*/
+       }}>
+      <div style={{ paddingTop: '75px' }} >
+        <RxFramerLogo style={{ fontSize: '75px', color: '#ccdae7', margin: 'auto', opacity: '0.5' }} />
       </div>
-      <h1 style={{ color: 'white', width: '90%', maxWidth: '720px', margin: 'auto', marginTop: '30px', marginBottom: '-20px' }} className="text-5xl font-bold  leading-normal ">
-        Take Your TikTok Videos to the Next Level with AI
+      <h1 style={{ color: 'white', width: '90%', maxWidth: '720px', margin: 'auto', marginTop: '30px', marginBottom: '-20px', color: '#ccdae7' }} className="text-5xl font-bold  leading-normal ">
+        Take Your TikTok Videos to the<span className='text-gradient__indigo-red' > Next Level</span> with AI
       </h1>
 
       <div className="flex justify-center mt-20" style={{ marginBottom: '-15px' }}>
@@ -229,17 +242,26 @@ until they turn golden brown chili powder or ketchup?
           <div className="mb-3 flex items-center">
             {/* <label for="exampleFormControlInput1" className="form-label inline-block mb-2 text-gray-700 text-base text-left "
             >Tiktok video link</label> */}
-            <input
-              type="text"
-              className="  block w-full px-10 py-4 text-base font-light 
-              text-gray-900 shadow bg-white bg-clip-padding  
-              rounded-3xl transition ease-in-out m-0   "
-              placeholder="Insert a Tiktok video..."
-              value={videoURL}
-              style={{ border: 'none', outline: 'none', borderRadius: '50px' }}
-              onChange={(e) => setVideoURL(e.target.value)}
-            />
+
             {/* <div className=' border-r border-gray-300 mx-2 -ml-32' style={{height:'40px'}}></div> */}
+
+            <div class="p-1 w-full rounded-full bg-gradient-to-r from-[#152ce2] via-[#a205c3] to-[#e7004d] md:mr-2">
+              <div class="flex flex-col sm:flex-row items-center font-semibold bg-gray-800 rounded-full w-full">
+                <div class="flex w-full items-center">
+                  <input
+                    type="text"
+                    className="  block w-full px-10 py-4 text-base font-light 
+              text-gray-900 shadow bg-white bg-clip-padding  
+              rounded-3xl transition ease-in-out m-0  
+               "
+                    placeholder="Insert a Tiktok video..."
+                    value={videoURL}
+                    style={{ border: 'none', outline: 'none', borderRadius: '50px' }}
+                    onChange={(e) => setVideoURL(e.target.value)}
+                  />      </div>
+              </div>
+            </div>
+
 
             <button type="button"
               className=" 
@@ -247,11 +269,14 @@ until they turn golden brown chili powder or ketchup?
             font-medium text-xs leading-tight uppercase rounded-3xl 
             shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 
             focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 
-            active:shadow-lg transition duration-150 ease-in-out  -ml-32"
+            active:shadow-lg transition duration-150 ease-in-out  -ml-32
+            
+             text-white bg-gradient-to-r from-[#152ce2] via-[#a205c3] to-[#e7004d] whitespace-nowrap
+            "
               style={{
                 opacity: getVideoSubsLoading ? 0.5 : 1,
                 pointerEvents: getVideoSubsLoading ? 'none' : 'auto',
-                marginLeft: '-100px',
+                marginLeft: '-110px',
                 backgroundColor: 'rgb(221, 175, 36)',
               }}
               onClick={() => {
@@ -274,7 +299,7 @@ until they turn golden brown chili powder or ketchup?
 
 
       </div>
-      {prompts && <div className='animate__animated animate__fadeIn' >
+      {/*prompts && */<div key={prompts} className='animate__animated animate__fadeIn' style={{minHeight:'50px', opacity: prompts ? '1' :'0'}} >
 
 
         <button id='category-button' onClick={() => setCategory('hooks')} type="button"
@@ -337,14 +362,19 @@ until they turn golden brown chili powder or ketchup?
               if (!history?.length) {
                 console.log('Please input a Tiktok video first! ')
                 setGetVideoSubsError('Please input a Tiktok video first!')
+                return
               }
-              if (history?.length && history?.length % 2 == 0) {
-                setHistory(history => [...history, prompt.aiPrompt])
-                setQuestion('')
-                GetAnswer([...history, prompt.aiPrompt])
-              } else {
+              if (getAnswerLoading) {
                 console.log('please wait for the ai to respond ')
+                setGetAnswerError('Please wait for the ai to respond')
+                return
+
               }
+              setHistory(history => [...history, prompt.aiPrompt])
+              setQuestion('')
+              GetAnswer([...history, prompt.aiPrompt])
+
+
             }} type="button"
               style={{ background: '#6559ac', width: '400px' }}
               className="min-w-[12rem] h-12   relative w-full rounded text-white py-2 px-8 text-left shadow-md focus:outline-none 
@@ -372,9 +402,10 @@ until they turn golden brown chili powder or ketchup?
 
 
       </div>}
+      </div>
 
 
-      <div className="flex justify-center my-12 mb-2">
+      <div className="flex justify-center my-12 mb-2" style={{marginTop:'-100px'}}>
 
         {history && history.length > 0 && <div className="block p-6 shadow-lg bg-white rounded-lg animate__animated animate__fadeInDown   " style={{ width: '90%', maxWidth: '500px' }}>
           {/* <h5 className="text-gray-900 text-xl leading-tight font-medium mb-2">Ask questions about the video</h5> */}
@@ -406,12 +437,16 @@ until they turn golden brown chili powder or ketchup?
           </div>
 
           <button type="button"
-            className=" inline-block px-6 py-2.5 bg-pink-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-pink-700 hover:shadow-lg focus:bg-pink-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-pink-800 active:shadow-lg transition duration-150 ease-in-out"
+            className=" inline-block px-6 py-2.5 bg-pink-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md 
+            hover:bg-pink-700 hover:shadow-lg focus:bg-pink-700 focus:shadow-lg focus:outline-none focus:ring-0 
+            active:bg-pink-800 active:shadow-lg transition duration-150 ease-in-out
+            text-white bg-gradient-to-r from-[#e7004d] via-[#a205c3] to-[#152ce2] whitespace-nowrap
+            "
             style={{
               opacity: getAnswerLoading ? 0.5 : 1,
               pointerEvents: getAnswerLoading ? 'none' : 'auto',
               width: '100%',
-              background: '#ddaf24'
+              //background: '#e7004d'
             }}
             onClick={() => {
               if (!question.trim() || (question?.length < 3)) {
