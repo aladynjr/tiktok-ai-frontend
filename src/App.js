@@ -117,12 +117,17 @@ function App() {
         body: JSON.stringify({ history })
       })
 
-      const data = await response.json()
+      var data = await response.json()
 
       if (data.error) {
         console.error(data.message)
         setGetAnswerError(data.message)
         return null
+      }
+
+      //if data.answer starts with /n or /r, remove it
+      if (data.answer.startsWith('\r') || data.answer.startsWith('\n')) {
+        data.answer = data.answer.substring(1)
       }
 
 
@@ -169,6 +174,8 @@ function App() {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Enter') {
+       
+
 
         console.log('enter')
         if (!question.trim() || (question?.length < 3)) {
@@ -187,6 +194,9 @@ function App() {
         setQuestion('')
 
         GetAnswer([...history, question])
+
+        //clear question 
+        setQuestion('')
       }
     }
 
@@ -414,7 +424,7 @@ function App() {
             var answer = (index % 2 == 0)
             if (index == 0) return
             return <div key={index} className="flex justify-start my-6 ">
-              <div className='text-gray-500 mr-2 ' >{answer ? 'A  ' : 'Q  '} </div> <div className='text-left ' style={{ fontWeight: answer && '500' }} >{item}</div>
+              <div className='text-gray-500 mr-2 ' >{answer ? 'A  ' : 'Q  '} </div> <div className='text-left ' dangerouslySetInnerHTML={{ __html: item.replace(/\n/g, "<br />") }}  style={{ fontWeight: answer && '500' }} />
             </div>
           })
 
@@ -432,7 +442,10 @@ function App() {
               style={{ marginTop: (history.length > 1) && '10px' }}
               placeholder="e.g. Generate a question for this video that will make the viewer want to watch the video to find out the answer"
               value={question}
-              onChange={(e) => setQuestion(e.target.value)}
+              onChange={(e) => {
+                if(e.target.value=='\n') return
+                setQuestion(e.target.value)
+              }}
             />
           </div>
 
@@ -453,10 +466,10 @@ function App() {
                 setGetAnswerError('Please enter a valid question')
                 return
               }
-              setHistory(history => [...history, question])
+              setHistory(history => [...history, question?.trim()])
               setQuestion('')
 
-              GetAnswer([...history, question])
+              GetAnswer([...history, question?.trim()])
             }}
           >Send  →</button>
 
@@ -475,3 +488,4 @@ function App() {
 }
 
 export default App;
+//dangerouslySetInnerHTML={{ __html: text.replace(/\n/g, "<br />") }} 
